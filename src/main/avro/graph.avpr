@@ -1,0 +1,61 @@
+{"namespace": "org.librairy.service.graph.facade.model",
+ "protocol": "GraphService",
+
+ "types": [
+    {"name": "Format", "type": "enum","symbols": ["CSV","JSONL"]},
+    {"name": "Query", "type": "record", "fields": [
+     {"name":"type","type":["null","string"],"default":null},
+     {"name":"filter","type":["null","string"],"default":null, "order":"ignore"},
+     {"name":"fields","type":{"type" : "array","items":"string"},"default":[], "order":"ignore"}
+    ]},
+    {"name": "Selection", "type": "record", "fields": [
+     {"name":"query","type":"Query"},
+     {"name":"count","type":"long", "default": 0, "order":"ignore"}
+    ]},
+    {"name": "GraphRequest", "type": "record", "fields": [
+      {"name":"id","type":"string"},
+      {"name":"description","type":["null","string"],"default":null,"order":"ignore"},
+      {"name":"nodes","type":"Query","order":"ignore"},
+      {"name":"edges","type":"Query","order":"ignore"},
+      {"name":"format","type":"Format"}
+    ]},
+    {"name": "GraphInfo", "type": "record", "fields": [
+      {"name":"id","type":"string"},
+      {"name":"description","type":["null","string"],"default":null,"order":"ignore"},
+      {"name":"date","type":["null","string"],"default":null,"order":"ignore"},
+      {"name":"url","type":["null","string"],"default":null,"order":"ignore"},
+      {"name":"format","type":"Format"},
+      {"name":"nodes","type":"Selection","order":"ignore"},
+      {"name":"edges","type":"Selection","order":"ignore"}
+    ]},
+    {"name": "GraphSummary", "type": "record", "fields": [
+      {"name":"id","type":"string"},
+      {"name":"description","type":["null","string"],"default":null,"order":"ignore"},
+      {"name":"date","type":["null","string"],"default":null,"order":"ignore"},
+      {"name":"size","type":["null","string"],"default":null,"order":"ignore"}
+    ]}
+ ],
+
+ "messages": {
+     "newGraph": {
+       "request": [{"name": "graph", "type": "GraphRequest"}],
+       "response": "string"
+     },
+     "getGraph":{
+       "request": [{"name": "id", "type": "string"}],
+       "response": "GraphInfo"
+     },
+     "listGraphs":{
+       "request": [],
+       "response": {"type" : "array","items":"GraphSummary"}
+     },
+     "removeGraph":{
+       "request": [{"name": "id", "type": "string"}],
+       "response": "string"
+     },
+     "removeGraphs":{
+       "request": [],
+       "response": "string"
+     }
+ }
+}
